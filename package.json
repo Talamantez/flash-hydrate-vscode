@@ -1,0 +1,101 @@
+{
+  "name": "claude-vscode-assistant",
+  "displayName": "Claude AI Assistant",
+  "version": "1.1.13",
+  "description": "Claude AI assistant for Visual Studio Code",
+  "publisher": "conscious-robot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talamantez/claude-vscode"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Machine Learning",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "claude",
+    "ai",
+    "assistant",
+    "anthropic",
+    "code"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "icon": "icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claude-vscode.scaffoldRepo",
+        "title": "Scaffold Repository from Description",
+        "category": "Claude"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "true",
+          "command": "claude-vscode.scaffoldRepo",
+          "group": "2_workspace@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "editorTextFocus",
+          "command": "claude-vscode.scaffoldRepo",
+          "group": "navigation@1"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Claude VS Code",
+      "properties": {
+        "claude-vscode.model": {
+          "type": "string",
+          "default": "claude-3-opus-20240229",
+          "description": "Claude model to use for requests"
+        },
+        "claude-vscode.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your Claude API Key"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run verify",
+    "build": "tsc -p ./tsconfig.json && esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify",
+    "watch": "node esbuild.js --watch",
+    "package": "pnpm run verify && vsce package",
+    "publish": "pnpm run verify && vsce publish",
+    "verify": "pnpm run build && pnpm run test",
+    "pretest": "pnpm run build && pnpm run compile-tests",
+    "test": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' node --force-node-api-uncaught-exceptions-policy=true ./out/test/runTest.js",
+    "compile-tests": "tsc -p ./tsconfig.test.json",
+    "watch-tests": "tsc -p ./tsconfig.test.json --watch"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^20.0.0",
+    "@types/sinon": "^17.0.3",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.32.0",
+    "esbuild": "^0.19.12",
+    "eslint": "^8.57.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.8.2",
+    "sinon": "^19.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

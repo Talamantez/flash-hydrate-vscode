@@ -1,0 +1,30 @@
+# Development
+.vscode/**
+.vscode-test/**
+src/**
+out/**
+**/tsconfig.json
+**/*.map
+**/*.ts
+.gitignore
+.npmignore
+.env
+.env.example
+esbuild.js
+
+# Build artifacts
+node_modules/**
+dist/**/*.map
+
+# Deno backend
+deno.deploy.json
+deno.json
+main.ts
+
+# Temp files
+concatenated_code.txt
+*.vsix
+
+# Don't ignore these files
+!dist/extension.js
+!logo.png
