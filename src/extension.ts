@@ -1,7 +1,6 @@
 ﻿// src/extension.ts
 import * as vscode from 'vscode';
 import { ClaudeApiService, DefaultClaudeApiService } from './services/claude-api';
-import { ClaudeResponse } from './api';
 import { Timeouts } from './config';
 import { waitForExtensionReady } from './utils';
 import { scaffoldRepository } from './scaffold';

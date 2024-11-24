@@ -69,17 +69,15 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run verify",
-    "build": "tsc -p ./tsconfig.json && esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify",
-    "watch": "node esbuild.js --watch",
-    "package": "pnpm run verify && vsce package",
-    "publish": "pnpm run verify && vsce publish",
-    "verify": "pnpm run build && pnpm run test",
-    "pretest": "pnpm run build && pnpm run compile-tests",
-    "test": "npm run prepare-test && xvfb-run -a --server-args=\"-screen 0 1024x768x24\" node --force-node-api-uncaught-exceptions-policy=true ./out/test/runTest.js",
-    "prepare-test": "mkdir -p /tmp/.X11-unix && mkdir -p ~/.cache/dconf",
+    "vscode:prepublish": "npm run build",
+    "build": "npm run compile && npm run bundle",
+    "compile": "tsc -p ./tsconfig.json",
     "compile-tests": "tsc -p ./tsconfig.test.json",
-    "watch-tests": "tsc -p ./tsconfig.test.json --watch"
+    "bundle": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify",
+    "watch": "tsc -watch -p ./tsconfig.json",
+    "pretest": "npm run compile-tests",
+    "test": "npm run prepare-test && xvfb-run -a --server-args='-screen 0 1024x768x24' node --force-node-api-uncaught-exceptions-policy=true ./out/test/runTest.js",
+    "prepare-test": "mkdir -p /tmp/.X11-unix && mkdir -p ~/.cache/dconf"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",

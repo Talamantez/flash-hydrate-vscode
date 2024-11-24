@@ -6,15 +6,6 @@ const EXTENSION_COMMANDS = [
     'claude-vscode.scaffoldRepo'
 ] as const;
 
-type ExtensionCommand = typeof EXTENSION_COMMANDS[number];
-
-class CommandRegistrationError extends Error {
-    constructor(message: string, public command: string) {
-        super(message);
-        this.name = 'CommandRegistrationError';
-    }
-}
-
 /**
  * Super strong force removal of a command
  */
