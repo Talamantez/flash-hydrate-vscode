@@ -1,13 +1,12 @@
-// === File: test/suite/index.ts ===
 import * as path from 'path';
-import Mocha from 'mocha';
+import { default as Mocha } from 'mocha';  // Fixed Mocha import
 import { glob } from 'glob';
 
 export async function run(): Promise<void> {
     const mocha = new Mocha({
         ui: 'tdd',
         color: true,
-        timeout: 60000, // More time for cleanup
+        timeout: 60000,
         slow: 10000,
         reporter: 'spec'
     });
@@ -20,7 +19,7 @@ export async function run(): Promise<void> {
 
         return new Promise<void>((resolve, reject) => {
             try {
-                mocha.run(failures => {
+                mocha.run((failures: number) => {
                     if (failures > 0) {
                         reject(new Error(`${failures} tests failed.`));
                     } else {

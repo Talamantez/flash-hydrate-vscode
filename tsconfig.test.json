@@ -1,13 +1,17 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2020",
-    "outDir": "out",
+    "lib": [
+      "ES2020"
+    ],
     "sourceMap": true,
-    "strict": true,
     "rootDir": ".",
-    "allowJs": true
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "out"
   },
   "include": [
     "test/**/*"
