@@ -24,7 +24,7 @@
     "code"
   ],
   "activationEvents": [
-    "*"
+    "onCommand:workbench.action.showCommands"
   ],
   "main": "./dist/extension.js",
   "icon": "icon.png",
@@ -76,7 +76,8 @@
     "publish": "pnpm run verify && vsce publish",
     "verify": "pnpm run build && pnpm run test",
     "pretest": "pnpm run build && pnpm run compile-tests",
-    "test": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' node --force-node-api-uncaught-exceptions-policy=true ./out/test/runTest.js",
+    "test": "npm run prepare-test && xvfb-run -a --server-args=\"-screen 0 1024x768x24\" node --force-node-api-uncaught-exceptions-policy=true ./out/test/runTest.js",
+    "prepare-test": "mkdir -p /tmp/.X11-unix && mkdir -p ~/.cache/dconf",
     "compile-tests": "tsc -p ./tsconfig.test.json",
     "watch-tests": "tsc -p ./tsconfig.test.json --watch"
   },

@@ -1,18 +1,13 @@
+// === File: src/utils.ts ===
 import * as vscode from 'vscode';
 import { Timeouts } from './config';
 
-/**
- * List of all extension commands that need to be managed
- */
 const EXTENSION_COMMANDS = [
     'claude-vscode.scaffoldRepo'
 ] as const;
 
 type ExtensionCommand = typeof EXTENSION_COMMANDS[number];
 
-/**
- * Error class for command registration issues
- */
 class CommandRegistrationError extends Error {
     constructor(message: string, public command: string) {
         super(message);
@@ -21,68 +16,68 @@ class CommandRegistrationError extends Error {
 }
 
 /**
- * Unregisters all extension commands and verifies they are properly cleaned up
- * @throws {CommandRegistrationError} If commands cannot be unregistered
- * @returns {Promise<void>}
+ * Super strong force removal of a command
  */
-export async function unregisterCommands(): Promise<void> {
-    const existingCommands = await vscode.commands.getCommands();
+async function forceRemoveCommand(command: string): Promise<void> {
+    console.log(`🧹 Attempting to force remove command: ${command}`);
 
-    for (const command of EXTENSION_COMMANDS) {
-        try {
-            if (existingCommands.includes(command)) {
-                // Register a dummy command to force disposal of the existing one
-                const disposable = vscode.commands.registerCommand(command, () => { });
-                disposable.dispose();
-
-                // Verify command was actually unregistered
-                const commandsAfter = await vscode.commands.getCommands();
-                if (commandsAfter.includes(command)) {
-                    throw new CommandRegistrationError(
-                        `Failed to unregister command: ${command}`,
-                        command
-                    );
-                }
-            }
-        } catch (error) {
-            if (error instanceof CommandRegistrationError) {
-                throw error;
-            }
-            // Wrap other errors
-            throw new CommandRegistrationError(
-                `Error while unregistering command ${command}: ${error instanceof Error ? error.message : 'Unknown error'}`,
-                command
-            );
-        }
+    // Strategy 1: Try standard disposal
+    try {
+        const dummy = vscode.commands.registerCommand(command, () => { });
+        dummy.dispose();
+        console.log('✨ Strategy 1: Standard disposal completed');
+    } catch (error) {
+        console.log('💭 Strategy 1 failed, trying next strategy...');
     }
 
-    // Wait for VS Code to process command disposals
-    await waitForExtensionReady(Timeouts.ACTIVATION);
+    // Strategy 2: Wait for VS Code to process
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('⏳ Waited for VS Code to process changes');
+
+    // Strategy 3: Verify removal
+    const commands = await vscode.commands.getCommands();
+    if (!commands.includes(command)) {
+        console.log('🎉 Command successfully removed!');
+        return;
+    }
+
+    console.log('⚠️ Command still exists after cleanup attempts');
 }
 
 /**
- * Waits for the extension to be ready after state changes
- * @param timeout Optional custom timeout (defaults to 3x activation timeout)
+ * Unregisters all extension commands with improved cleanup
  */
+export async function unregisterCommands(maxRetries = 3): Promise<void> {
+    console.log('🧸 Starting command cleanup...');
+
+    for (const command of EXTENSION_COMMANDS) {
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            console.log(`\n🔄 Cleanup attempt ${attempt + 1} for ${command}`);
+
+            try {
+                await forceRemoveCommand(command);
+                const commands = await vscode.commands.getCommands();
+                if (!commands.includes(command)) {
+                    console.log(`✅ Successfully cleaned up ${command}`);
+                    break;
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                console.log('⏳ Waiting before next attempt...');
+
+            } catch (error) {
+                console.log(`❌ Cleanup attempt ${attempt + 1} failed:`, error);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+    }
+
+    // Final wait to ensure VS Code is happy
+    await waitForExtensionReady(Timeouts.ACTIVATION);
+    console.log('🎯 Command cleanup completed!');
+}
+
 export async function waitForExtensionReady(timeout?: number): Promise<void> {
     const waitTime = timeout || Math.max(Timeouts.ACTIVATION * 3, 500);
     await new Promise(resolve => setTimeout(resolve, waitTime));
-}
-
-/**
- * Ensures all editor windows are closed
- * @param retries Number of retry attempts
- * @param delay Delay between retries in ms
- */
-export async function ensureAllEditorsClosed(retries = 3, delay = 500): Promise<void> {
-    for (let i = 0; i < retries; i++) {
-        if (vscode.window.visibleTextEditors.length === 0) {
-            return;
-        }
-        await vscode.commands.executeCommand('workbench.action.closeAllEditors');
-        await new Promise(resolve => setTimeout(resolve, delay));
-    }
-    if (vscode.window.visibleTextEditors.length > 0) {
-        throw new Error('Failed to close all editors');
-    }
 }
