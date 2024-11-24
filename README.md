@@ -1,104 +1,122 @@
-# Claude AI Assistant
+# 🌲 Flash Hydrate
 
-Bring the power of Claude directly into your development workflow. This extension allows you to interact with Claude AI without leaving VS Code, helping you write, document, and understand code more effectively.
-
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow?style=flat&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/conscious.robot)
-
-[Support Feminist Inclusion Leadership Uganda](https://www.mchanga.africa/fundraiser/97578) <a href="https://www.mchanga.africa/fundraiser/97578">
-  <img src="feminist-inclusion-leadership-center/filc1.jpg" alt="Feminist Inclusion Leadership Uganda Image 1" width="100" />
-</a>
-
-By [Conscious Robot](https://conscious-robot.com)
-Inspired by [Baratunde "We go faster when we go together" Thurston](https://podcasts.apple.com/us/podcast/life-with-machines/id1766829040)
-
-# 🎉 Celebrating 100 Installs! 🎉
-
-A huge **THANK YOU** to all the amazing users who have installed and supported this extension! Together we can build a happy, safe, easy to use internet! (go fig!:-D) 🙌
-
-Introducing the Beep to Claude AI Assistant's Boop, [FlashRepo](https://marketplace.visualstudio.com/items?itemName=conscious-robot.flash-repo)! Easily concatenate repository files for AI context sharing.
-
- # Right Click? Claude!
-![image](https://github.com/user-attachments/assets/3e3abb1f-d12b-468a-99ef-0e3a347a701d)
-
-[Basic usage (video)](https://www.awesomescreenshot.com/video/33547525?key=8c3b97293ba780ded6ba9d19f9423f35)
-
-[Tip! Include text from previous AI responses (video)](https://www.awesomescreenshot.com/video/33636474?key=d16f8b7ef6b546ae58390f5defccb571)
-
-## Key Features
-
-* Ask Claude: Select any text and right click to get instant AI assistance
-* Document Code: Automatically generate documentation for your code
-* Context-Aware: Include context by including text from previous responses.
-* Markdown Output: Responses are formatted in clean, readable Markdown
-
-## Quick Start
-
-1. Install the extension
-2. Set up your Claude API key (see below)
-3. Select text, right click, select Claude AI then select:
-   * `Ask Claude` for general assistance
-   * `Document Code` for automatic documentation
-
-That's it! No fuss, no muss.
-
-## API Key Setup
-
-### Get Your Key
-1. Sign up for an Anthropic account
-2. Navigate to API settings
-3. Generate a new API key
-4. Keep it secure - never share or commit it
-
-### Add Your Key
-
-Method 1 - VS Code Settings (Recommended):
-1. Open Settings (Ctrl/Cmd + ,)
-2. Search for "Claude VS Code"
-3. Enter your API key
-4. VS Code stores it securely
-
-Method 2 - Environment Variable:
-* Set CLAUDE_API_KEY in your environment
-* Ensure secure variable management
-
-## Security First
-
-* Keys stored in VS Code's secure storage
-* HTTPS-only API communication
-* No data storage or logging
-* Direct Claude API integration
-* Your key, your control
-
-## Model Selection
-
-Choose your model in VS Code settings:
-* claude-3-opus-20240229 (default)
-* claude-3-sonnet-20240229
-
-## Requirements
-
-* VS Code 1.80.0+
-* Internet connection
-* Claude API key
-
-Need help? Visit our [GitHub repository](https://github.com/talamantez/claude-vscode)
-
-## 🏳️‍⚧️📢Support Transgender Rights in Uganda!
-
-[Feminist Inclusion Leadership Uganda](https://filcenter.org/) [Fundraiser](https://www.mchanga.africa/fundraiser/97578) is on the ground fighting to create a more just, inclusive and peaceful society for transgender, gender diverse and intersex individuals in Uganda and East Africa.
-
-Please consider learning more about their mission and supporting their fundraiser if you can. Even spreading awareness helps!
-
-<a href="https://www.mchanga.africa/fundraiser/97578">
-  <img src="feminist-inclusion-leadership-center/filc1.jpg" alt="Feminist Inclusion Leadership Uganda Image 1" width="400" />
-</a>
-
-<a href="https://www.mchanga.africa/fundraiser/97578">  
-  <img src="feminist-inclusion-leadership-center/flic2.jpg" alt="Feminist Inclusion Leadership Uganda Image 2" width="400" />
-</a>
-
-## Call for Feature Requests
-
-What's working? What's not? What are your other painpoints in your AI workflow? Want to chat about fresh baked lemon cupcakes? Don't be shy. [Open an Issue!](https://github.com/talamantez/claude-vscode/issues/new)
+Flash Hydrate is a friendly VS Code extension that helps you quickly scaffold new repositories using Claude's AI capabilities. Think of it as your helpful forest friend who knows how to build cozy homes for all your code! 
 
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow?style=flat&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/conscious.robot)
+
+## 🎋 Features
+
+- **One-Command Scaffolding**: Just describe what you want to build, and watch the magic happen!
+- **Smart Structure Generation**: Creates a well-organized repository structure with best practices
+- **Ecosystem Awareness**: Understands modern development patterns and tools
+- **Forest-Friendly Setup**: 
+  - Generates all necessary configuration files
+  - Sets up testing infrastructure
+  - Creates meaningful documentation
+  - Adds appropriate gitignores and other essentials
+
+## 🦊 Usage
+
+1. Open the Command Palette (Ctrl+Shift+P or Cmd+Shift+P)
+2. Type "Flash Hydrate"
+3. Select "Flash Hydrate: Scaffold Repository"
+4. Describe your desired repository, for example:
+   - "A React todo app with TypeScript and Tailwind"
+   - "A Python Flask API for managing a book library"
+   - "A Node.js CLI tool for converting markdown to PDF"
+
+### 🦉 Example Input/Output
+
+```bash
+# Input:
+"Create a React component library with TypeScript and Storybook"
+
+# Output:
+📁 my-component-lib/
+  ├── 📄 package.json
+  ├── 📄 tsconfig.json
+  ├── 📄 .storybook/
+  ├── 📄 src/
+  │   ├── components/
+  │   ├── tests/
+  │   └── stories/
+  └── 📄 README.md
+```
+
+## 🦫 Configuration
+
+Configure through VS Code settings:
+
+- `claude-vscode.model`: Choose your Claude model
+  - Default: "claude-3-opus-20240229"
+  - Options: ["claude-3-opus-20240229", "claude-3-sonnet-20240229"]
+  
+- `claude-vscode.apiKey`: Your Claude API key (required)
+
+## 🦁 Tips for Good Scaffolding
+
+1. **Be Specific**: The more details you provide, the better the scaffolding
+   - Good: "A React app with TypeScript, Tailwind, and React Query for a todo list manager"
+   - Less Good: "A React app"
+
+2. **Mention Key Technologies**: Include important frameworks or tools you want to use
+
+3. **Indicate Purpose**: Describe what the project is for to get appropriate structuring
+
+## 🐢 Installation
+
+1. Open VS Code
+2. Visit Extensions (Ctrl+Shift+X)
+3. Search for "Flash Hydrate"
+4. Click Install
+
+## 🦊 Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build the extension
+pnpm run build
+
+# Run tests
+pnpm test
+
+# Package the extension
+vsce package --no-dependencies
+```
+
+## 🦝 Support
+
+If Flash Hydrate helps you build your forest of code, consider buying me a coffee! Every contribution helps keep the forest growing.
+
+<a href="https://www.buymeacoffee.com/conscious.robot" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60" width="217" style="height: 60px !important;width: 217px !important;" />
+</a>
+
+## 🦡 License
+
+MIT
+
+## 🐻 Contributing
+
+All forest friends are welcome to contribute! Please check our [contribution guidelines](CONTRIBUTING.md).
+
+## 🦌 Release Notes
+
+See [CHANGELOG.md](CHANGELOG.md) for the full journey through our forest.
+
+## 🦔 Known Issues
+
+- The extension needs a Claude API key to work
+- Some scaffolding operations might take a little time as Claude thinks about the best structure
+- Currently only supports single-workspace scaffolding
+
+## 🐿️ Roadmap
+
+- Support for more complex project structures
+- Template saving and reuse
+- Custom scaffolding recipes
+- Multi-workspace support
+
+Made with 💚 by Conscious Robot 🌲
