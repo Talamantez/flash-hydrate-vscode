@@ -2,11 +2,13 @@
 import * as vscode from 'vscode';
 import { ClaudeApiService, DefaultClaudeApiService } from './services/claude-api';
 import { Timeouts } from './config';
-import { waitForExtensionReady } from './utils';
+import { unregisterCommands, waitForExtensionReady } from './utils';
 import { scaffoldRepository } from './scaffold';
 
 let apiService: ClaudeApiService;
 
+// Track disposables at module level
+let extensionDisposables: vscode.Disposable[] = [];
 /**
  * Handles Claude API requests to scaffold a repository
  */
@@ -96,8 +98,12 @@ export async function activate(context: vscode.ExtensionContext, service?: Claud
             await handleScaffoldRequest();
         });
 
-        // Add command to subscriptions for cleanup
+        // Track in both places
         context.subscriptions.push(scaffoldCommand);
+        extensionDisposables.push(scaffoldCommand);
+
+        // Track any additional disposables from context
+        extensionDisposables.push(...context.subscriptions);
 
         console.log('Flash Hydrate extension activated successfully');
 
@@ -114,4 +120,29 @@ export async function activate(context: vscode.ExtensionContext, service?: Claud
  */
 export async function deactivate() {
     console.log('Flash Hydrate extension deactivating...');
+
+    try {
+        // Clean up commands first
+        await unregisterCommands();
+
+        // Then dispose of all tracked disposables
+        console.log(`Cleaning up ${extensionDisposables.length} disposables...`);
+
+        for (const disposable of extensionDisposables) {
+            try {
+                if (disposable && typeof disposable.dispose === 'function') {
+                    disposable.dispose();
+                    console.log('Disposed of resource successfully');
+                }
+            } catch (error) {
+                console.error('Error disposing resource:', error);
+            }
+        }
+
+        // Clear the array
+        extensionDisposables = [];
+
+    } catch (error) {
+        console.error('Error during deactivation cleanup:', error);
+    }
 }
